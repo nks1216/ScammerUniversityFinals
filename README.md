@@ -25,6 +25,7 @@ The data compiled suffered from some notable limitations:
 |             | econ| dipl| govt| scty|
 |-------------|-----|-----|-----|-----|
 |GPT-3.5-turbo|84.62|51.11|60.94|66.78|
+
  *Note: temperature = 0.0*
 
 | Axis        | High Score → Interpretation         | Low Score → Interpretation         |
