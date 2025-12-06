@@ -9,7 +9,7 @@ from tqdm import tqdm
 PROMPT_FILE_PATH = "prompts/prompts.json"
 OUTPUT_FILE_PATH = "artifacts/chatgpt_5.1_.csv"
 NUM_ROUNDS = 50
-MODEL_NAME = "gpt-5.1"
+MODEL_NAME = "gpt-4.1"
 
 load_dotenv()
 
@@ -50,16 +50,18 @@ def main():
         answers = []
 
         for r in range(1, NUM_ROUNDS + 1):
-            user_prompt = (
-                f"{constraint}\n\n"
-                f"Statement: {question}\n\n"
-                f"Answer only 'Yes' or 'No':"
-            )
 
+            messages = [{"role": "system", "content": 
+            "Respond using exactly one word. Only output the word 'Yes' or 'No' in response. Do not explain."
+            }, 
+            {"role": "user", "content":
+             f"{constraint}\n\n{question}"}
+            ]
+                
             try:
                 resp = client.chat.completions.create(
                     model=MODEL_NAME,
-                    messages=[{"role": "user", "content": user_prompt}],
+                    messages=messages,
                     max_completion_tokens=5,
                     temperature=1.0,
                 )
