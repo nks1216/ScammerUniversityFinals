@@ -13,7 +13,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 MODEL_NAME = "gpt-3.5-turbo"
 PROMPT_FILE_PATH = "prompts/prompts.json"
-OUTPUT_FILE_PATH = "artifacts/gpt3_5_results.csv"
+OUTPUT_FILE_PATH = "reference/gpt_3_5_turbo/gpt3_5_results.csv"
 
 # Parameters for the experiment
 NUM_ROUNDS = 50       # Number of times to ask the same question
@@ -93,7 +93,7 @@ with open(OUTPUT_FILE_PATH, "w", encoding="utf-8", newline="") as f:
         
         """
         Execute the 'ask_gpt' function 50 times in parallel using ThreadPoolExecutor.
-        This allows 20 workers (threads) to send requests simultaneously,
+        This allows 40 workers (threads) to send requests simultaneously,
         significantly reducing the total wait time.
         """
 
