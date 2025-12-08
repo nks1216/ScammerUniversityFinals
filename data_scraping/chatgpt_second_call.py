@@ -125,7 +125,6 @@ async def main():
             "id": qid,
             "dimension": dimension,
             "question_text": question,
-            "constraint": constraint,
             "Yes_Probability": round(yes_prob, 4),
             "Variance": round(variance, 4),
         }
@@ -137,7 +136,7 @@ async def main():
 
     # Write CSV
     fieldnames = (
-        ["id", "dimension", "question_text", "constraint"]
+        ["id", "dimension", "question_text"]
         + [f"Round_{i}" for i in range(1, NUM_ROUNDS + 1)]
         + ["Yes_Probability", "Variance"]
     )
