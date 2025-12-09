@@ -97,7 +97,7 @@ if __name__ == "__main__":
         print("Current Scores:", final_result)
 
         #5 save to csv
-        output_dir = os.path.join("artifacts", "politics")
+        output_dir = os.path.join("reference", "politics")
         os.makedirs(output_dir, exist_ok=True)
 
         logs_df = pd.DataFrame(logs)
