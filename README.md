@@ -31,11 +31,7 @@ Each question contributes points to four axes: econ, dipl, govt, and scty. Depen
 If the AI model answers *Yes* to “Oppression by corporations is more of a concern than oppression by governments.” then it receives `econ = +10` and `govt = -5`.  
 If it answers *No*, then it receives `econ = -10` and `govt = +5`.
 
-After answering all 70 questions, each axis will have a score that falls between its minimum and maximum possible values:  
-- econ: -115 to +115  
-- dipl: -95 to +95  
-- govt: -115 to +115  
-- scty: -105 to +105  
+After answering all 70 questions, each axis will have a score that falls between its minimum and maximum possible values (econ: -115 to +115 / dipl: -95 to +95 / govt: -115 to +115 / scty: -105 to +105)  
 
 Because the raw scores can be negative or positive, they are linearly transformed into a 0–100 scale using the formula:
 
@@ -43,35 +39,14 @@ $$
 pct = \frac{scores[axis] + max\ scores[axis]}{2 \cdot max\ scores[axis]} \times 100
 $$
 
-This transformation shifts the range so that:  
-- Minimum score (-max) → 0  
-- Neutral score (0) → 50  
-- Maximum score (+max) → 100  
-
-The final percentage values make the results easier to interpret:  
-- A score near 0 → strong disagreement with that axis  
-- A score near 50 → neutral or balanced  
-- A score near 100 → strong agreement with that axis
+This transformation shifts the range to Minimum → 0, Neutral → 50, and Maximum → 100.
 
 **Results**
 
-| Model | econ | dipl | govt | scty |
-| :--- | :---: | :---: | :---: | :---: |
-| **llama-3.1** | 77.44 | 67.78 | 59.00 | 74.18 |
-| **grok-4.1** | 46.36 | 49.47 | 65.31 | 69.93 |
-| **Qwen-3** | 63.13 | 61.51 | 61.75 | 68.32 |
-| **deepseek-v3** | 85.13 | 63.78 | 55.56 | 68.37 |
-| **claude-haiku** | 61.69 | 59.33 | 64.16 | 64.21 |
-| **chatgpt-4o** | 82.05 | 60.00 | 54.69 | 70.89 |
-| **gemini-2.5** | 46.15 | 59.73 | 70.19 | 56.58 |
+![](analysis/politics/charts/compass_model_scores.png)
 
-| Model | Language | econ | dipl | govt | scty |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **llama-3.1** | **ENG** | 77.44 | 67.78 | 59.00 | 74.18 |
-| **llama-3.1** | **CHN** | 75.49 | 64.00 | 55.47 | 70.38 |
-| **llama-3.1** | **KOR** | 73.38 | 50.76 | 46.53 | 66.85 |
-| **llama-3.1** | **RUS** | 69.69 | 57.20 | 51.62 | 66.99 |
-| **llama-3.1** | **ARAB** | 64.03 | 50.60 | 47.44 | 55.06 |
+![](analysis/politics/charts/compass_llama_language.png)
+
 
  *Note: temperature = 1.0 (to capture variance)*
 
