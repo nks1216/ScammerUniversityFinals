@@ -101,7 +101,7 @@ We compared the political scores of major LLMs.
     * **Progressive Dominance:** Almost all models are **Progressive**. **Llama (74.2)** and **Grok (69.9)** show high progressive scores.
     * **Relative Conservatism:** **Gemini (56.6)** is the outlier, showing the most **Traditional** tendencies among the tested models.
 
-### _3-2. Language Comparison (Focus on Llama)_
+### _1-2. Language Comparison (Focus on Llama)_
 
 #### Why choose Llama?
 Commercial models are trained to give consistent responses in every language, but Llama tends to expose the specific traits of the training data used for each language. Therefore, it was well-suited for analyzing differences in political alignment based on language.
@@ -117,7 +117,7 @@ We asked the same questions to Llama in different languages, and the results wer
 3.  **SA Arabic: "More Traditional"**
     * When speaking Arabic, the model showed much more conservative views on social issues.
 
-### _3-3. Reliability (Consistency Check)_
+### _1-3. Reliability (Consistency Check)_
 
 Does the model give the same answer every time?
 We measured the **Average Variance** of responses across 50 iterations. A lower score indicates higher consistency and reliability.
