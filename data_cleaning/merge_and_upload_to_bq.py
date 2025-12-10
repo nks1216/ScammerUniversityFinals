@@ -2,9 +2,9 @@ import pandas as pd
 import os
 import pandas_gbq
 
-PROJECT_ID = 'scammeruniversity'
-DATASET_ID = 'model_comparison'
-TABLE_ID   = 'Combined_table_for_analysis'
+PROJECT_ID = os.getenv("GCP_PROJECT_ID")
+DATASET_ID = os.getenv("BQ_DATASET")
+TABLE_ID   = os.getenv("BQ_TABLE", "Combined_table_for_analysis")
 CSV_OUTPUT_PATH = 'artifacts/Combined_table_for_analysis.csv'
 
 def get_language_from_id(id_val):
