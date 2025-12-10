@@ -92,9 +92,9 @@ In this test, for each question, the results for a specific Large Language Model
 Null Hypothesis ($H_0$): The answer distributions of the two compared LLMs originate from the same population.  
 Testing Methods: Chi-square test, Z-test, and Fisher’s Exact Test.  
 Result Interpretation: If the two distributions are determined not to originate from the same population, the p-value will be low. The p-value is outputted with significance stars:  
-$p < 0.1$: $\text{*}$ (one star)
-$p < 0.05$: $\text{**}$ (two stars)
-$p < 0.01$: $\text{***}$ (three stars)
+$p < 0.1$: $\text{\*}$ (one star)  
+$p < 0.05$: $\text{\*\*}$ (two stars)  
+$p < 0.01$: $\text{\*\*\*}$ (three stars)  
 
 ### _5-2. Language-Level Statistical Testing_
 
@@ -103,9 +103,9 @@ In this test, for each question, the results for a specific prompt language were
 Null Hypothesis ($H_0$): The answer distributions of the two compared prompt languages originate from the same population.    
 Testing Methods: Chi-square test, Z-test, and Fisher’s Exact Test.  
 Result Interpretation: If the two distributions are determined not to originate from the same population, the p-value will be low. The p-value is outputted with significance stars:  
-$p < 0.1$: $\text{*}$ (one star)
-$p < 0.05$: $\text{**}$ (two stars)
-$p < 0.01$: $\text{***}$ (three stars)
+$p < 0.1$: $\text{\*}$ (one star)  
+$p < 0.05$: $\text{\*\*}$ (two stars)  
+$p < 0.01$: $\text{\*\*\*}$ (three stars)  
 
 ## __III. Descriptive Analysis & Findings__
 
