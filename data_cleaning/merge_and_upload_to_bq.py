@@ -1,6 +1,9 @@
 import pandas as pd
 import os
 import pandas_gbq
+from dotenv import load_dotenv
+
+load_dotenv()
 
 PROJECT_ID = os.getenv("GCP_PROJECT_ID")
 DATASET_ID = os.getenv("BQ_DATASET")
