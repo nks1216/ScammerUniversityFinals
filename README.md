@@ -290,6 +290,14 @@ These are the questions where the answer distributions for all pairwise language
 
 AI is not neutral. Our analysis reveals a clear political divide (e.g., ChatGPT leans Left, Grok leans Right). Furthermore, Llama demonstrates that 'Language is Culture' by shifting its stance from progressive in English to nationalistic in Korean.
 
+There is significant heterogeneity in the responses to questions about risk preference across different models, with the answers from any two models not belonging to the same distribution. There is also significant heterogeneity in the responses to questions about nationalism and internationalism across different prompt languages. Notably, on ethical issues, the models and prompt languages tend to yield uniform results.
+
+This finding further suggests that the significant differences between models are more reflected in their language style and behavioral logic when interacting with users, while the language of the input prompt, determined by the user, largely dictates the cultural elements considered by the model when contemplating the problem.
+
+As LLMs become increasingly prevalent in human production and daily life, their decision logic and behavioral patterns may potentially influence their users, and users of different languages may receive different outcomes. Although we find that most LLMs are progressively internationalist, the heterogeneity of the model regarding the prompt language might cause users in different countries, under its influence, to evolve toward different social trends.
+
+How to better constrain Large Language Models and how to prevent them from uncontrollably dominating the direction of human societal development are key future issues in exploring human-computer interaction.
+
 ## __V. Limitations & Extensions__
 
 ### _1. Limitation of Our Analysis_
