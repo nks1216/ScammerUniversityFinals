@@ -117,15 +117,33 @@ We asked the same questions to Llama in different languages, and the results wer
 3.  **SA Arabic: "More Traditional"**
     * When speaking Arabic, the model showed much more conservative views on social issues.
 
- *Note: temperature = 1.0 (to capture variance)*
+### _3-3. Reliability (Consistency Check)_
 
-(To be updated)
+Does the model give the same answer every time?
+We measured the **Average Variance** of responses across 50 iterations. A lower score indicates higher consistency and reliability.
+
+| Language | Gemini | ChatGPT | Qwen | Claude | DeepSeek | Grok | Llama |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **ENG** | **0.002** | 0.011 | 0.016 | 0.020 | 0.025 | 0.038 | 0.056 |
+| **KOR** | **0.002** | 0.013 | 0.013 | 0.029 | 0.046 | 0.053 | 0.074 |
+| **CHN** | **0.001** | 0.024 | 0.018 | 0.019 | 0.041 | 0.056 | 0.065 |
+| **ARAB** | **0.015** | 0.028 | 0.024 | 0.020 | 0.046 | 0.035 | 0.072 |
+| **RUS** | **0.001** | 0.012 | 0.021 | 0.020 | 0.033 | 0.052 | 0.069 |
+
+
+1.  **Gemini (Most Consistent):** Maintained near-zero variance (~0.002) across most languages, with a slight exception in Arabic (0.015).
+2.  **Llama (Most Fluid):** Showed the highest variance (peaking at 0.074 in Korean), indicating less rigid alignment compared to commercial models.
+3.  **Language Gap:** Higher variance in non-English languages highlights that **multilingual alignment remains a challenge** for AI consistency.
+
+ *Note: temperature = 1.0 (to capture variance)*
 
 You can view the full detailed analysis results in the link below:
 
 👉 [Politics Scores by LLM](analysis/politics/table/model_scores.csv)
 
 👉 [Llama's Politics Scores by Language](analysis/politics/table/model_scores.csv)
+
+👉 [Reliability by LLM and Language](analysis/politics/table/model_language_reliability.csv)
 
 👉 [Raw data for Politics Scores](data_cleaning/politics/combined_politics_results.csv)
 
@@ -215,3 +233,7 @@ Before running `data_scraping/llama.api.py`, create a local .env file and store 
 
 - Output: `analysis/politics/llama_language_scores.csv`
 - If you run `data_cleaning/politics/visualize_language_score.py`, this will generate `analysis/politics/compass_llama_language.png`.
+
+4. Reliability: Run `data_cleaning/politics/calculate_reliability.py`. 
+
+- Output: `analysis/politics/model_language_reliability.csv`
