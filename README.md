@@ -79,6 +79,34 @@ We filtered Dimension (E vs I, S vs N, ...), Model (Claude, Gemini, ...) and Inp
 
 We added error bars to indicate the standard deviation of the models' responses for every round (total 50 rounds). 
 
+
+
+### _5. Statistical Testing_
+
+We conducted statistical tests on the answer distributions for each question at both the model and language levels, employing the Chi-square test, the Z-score test, and Fisher’s Exact Test. We chose not to perform pairwise statistical testing on model-language combinations due to the resulting excessive output; the current analyses are sufficient to demonstrate the heterogeneity in answer distributions based on models and prompt languages.  
+
+### _5-1. Model-Level Statistical Testing_
+
+In this test, for each question, the results for a specific Large Language Model were averaged across the five languages used. This yielded the mean answer distribution for that LLM on that question.The procedure then involved pairwise comparison of different LLMs to test whether their sample distributions originated from the same population.  
+
+Null Hypothesis ($H_0$): The answer distributions of the two compared LLMs originate from the same population.  
+Testing Methods: Chi-square test, Z-test, and Fisher’s Exact Test.  
+Result Interpretation: If the two distributions are determined not to originate from the same population, the p-value will be low. The p-value is outputted with significance stars:  
+$p < 0.1$: $\text{*}$ (one star)
+$p < 0.05$: $\text{**}$ (two stars)
+$p < 0.01$: $\text{***}$ (three stars)
+
+### _5-2. Language-Level Statistical Testing_
+
+In this test, for each question, the results for a specific prompt language were averaged across the six different LLMs used. This yielded the mean answer distribution for that prompt language on that question.The procedure then involved pairwise comparison of different prompt languages to test whether their sample distributions originated from the same population.  
+
+Null Hypothesis ($H_0$): The answer distributions of the two compared prompt languages originate from the same population.    
+Testing Methods: Chi-square test, Z-test, and Fisher’s Exact Test.  
+Result Interpretation: If the two distributions are determined not to originate from the same population, the p-value will be low. The p-value is outputted with significance stars:  
+$p < 0.1$: $\text{*}$ (one star)
+$p < 0.05$: $\text{**}$ (two stars)
+$p < 0.01$: $\text{***}$ (three stars)
+
 ## __III. Descriptive Analysis & Findings__
 
 ### _1. Politics_
