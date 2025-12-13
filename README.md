@@ -16,7 +16,7 @@ The project used prompts in different languages (English, Chinese, Korean, Russi
 - Llama: meta-llama/Meta-Llama-3.1-70B-Instruct  
 - Qwen: Qwen/Qwen3-Next-80B-A3B-Instruct  
 
-We repeated the same questions 50 times to ensure robustness of the results and to check the reliability of the LLMs.
+We repeated each question 50 times to ensure robustness and assess the reliability of the LLMs. A temperature setting of 1.0 was used to capture the variance in model responses.
 
 For each question, responses were collected in a binary format: “yes” was coded as 1, “no” as 0, and “error/neutral” as -1, thereby constructing baseline datasets for each model and language.
 
@@ -125,11 +125,7 @@ We filtered Dimension (E vs I, S vs N, ...), Model (Claude, Gemini, ...) and Inp
 
 We added error bars to indicate the standard deviation of the models' responses for every round (total 50 rounds). 
 
-### _3. Ethics_
 
-We used an identical methodology for our ethical analysis using Streamlit(https://streamlit.io) to generate an interactive dashboard. Model answers were assigned values of 1, 0, and -1 for yes, no, and unknown/errors respectively for 50 independent tests of each question. We then measured the probability that the models returned a "yes" response with the variance and standard deviation included as well. 
-
-Each of the 8 categories: lying, animals/environment, race/gender, health, age, theft, doomsday, and other interesting outcomes were filtered individually for the analysis. The corresponding probabilities, variance, and the standard deviation were included for each filtered category. Each model was included within each catergory for comparison. 
 
 ### _5. Statistical Testing_
 
@@ -213,8 +209,6 @@ We measured the **Average Variance** of responses across 50 iterations. A lower 
 2.  **Llama (Most Fluid):** Showed the highest variance (peaking at 0.074 in Korean), indicating less rigid alignment compared to commercial models.
 3.  **Language Gap:** Higher variance in non-English languages highlights that **multilingual alignment remains a challenge** for AI consistency.
 
- *Note: temperature = 1.0 (to capture variance)*
-
 You can view the full detailed analysis results in the link below:
 
 👉 [Politics Scores by LLM](analysis/politics/table/model_scores.csv)
@@ -255,11 +249,6 @@ This type of discrepancy is not shown in any other models.
   <img src="https://github.com/user-attachments/assets/c6d75683-73a7-41e0-ac09-f2043035f023" align="center" width="49%">
   <img src="https://github.com/user-attachments/assets/167ff8b3-0c09-4e79-82e6-dd3cd08f3570" align="center" width="49%">
 </p>
-
-
-
-
-
 
 ### _3._ Ethics 
 Model Comparison
@@ -381,14 +370,16 @@ How to better constrain Large Language Models and how to prevent them from uncon
 ## __V. Limitations & Extensions__
 
 ### _1. Limitation of Our Analysis_
+**1. Limitations in Model Tiers**: This research was conducted under limited financial resources, necessitating the use of "efficient" or "mini" versions of the latest models (e.g., Claude Haiku, GPT-4o-mini) instead of the premium, full-scale versions. Although these models are highly capable, they are optimized for speed and cost rather than maximum reasoning depth. Therefore, the political and ethical tendencies observed in this study might differ from those of the "flagship" models, which typically undergo more extensive training and safety alignment processes.
+
+**2. Ambiguity in Binary Constraints**: Methodology of forcing binary (Yes/No) outputs to quantify qualitative data may obscure the models' true reasoning capabilities, particularly in ethical and controversial scenarios. While this approach effectively eliminates vague "grey areas" for statistical clarity, it creates a challenge in distinguishing between a model's genuine "disagreement" with a premise and a "refusal" triggered by safety guardrails. When a model encounters a sensitive prompt (e.g., restricted political topics in certain languages), a forced binary response or a refusal treated as a null value might be conflated with a negative stance. 
+
+**3. Response Instability**: Another limitation comes from the inherent stochasticity observed in models, where responses to identical prompts exhibited significant variance across the 50 iterations. While this study relies on the mean probability of a "Yes" response to map the models' positions, high standard deviations in specific instances suggest that the model may not hold a stable or deterministic view on those topics. In cases where an AI fluctuates frequently between agreement and disagreement, it becomes challenging to pinpoint its "true" political or ethical inclination.
 
 ### _2. Possible Extension of Analysis_
+**1. Comparative Analysis with Flagship Models**: To address the limitations imposed by resource constraints, future research should incorporate flagship models (e.g., GPT-5.2, Claude 4.5 Opus) to verify whether the observed political and ethical tendencies persist in models with larger parameters and deeper reasoning capabilities. Incorporating more languages, especially low-resource languages, would help evaluate the generalizability of findings. Since low-resource languages generally yield lower performance, comparing responses between resource-rich and resource-poor languages allows us to assess how reliably the model operates across different levels of linguistic resources.  Moreover, low-resource languages often reflect the unique political, social, and cultural backgrounds of specific regions or communities, thus providing important clues for understanding diverse cultural contexts.
 
-Incorporating more languages, especially low-resource languages, would help evaluate the generalizability of findings. Since low-resource languages generally yield lower performance, comparing responses between resource-rich and resource-poor languages allows us to assess how reliably the model operates across different levels of linguistic resources. 
-
-Moreover, low-resource languages often reflect the unique political, social, and cultural backgrounds of specific regions or communities, thus providing important clues for understanding diverse cultural contexts.
-
-In addition, you can compare AI model responses across different versions. Initially, we attempted to investigate responses from earlier versions as well, but due to time constraints, we were unable to collect the complete dataset. For reference, see `reference/gpt_3_5_turbo/gpt3_5_call.api.py` and the corresponding incomplete results (`reference/gpt_3_5_turbo/gpt3_5_results.csv`), which contain 340 out of 975 questions.
+**2. Diversification of Testing Domains**: While this study focused on politics, personality, and ethics, the testing framework can be expanded to other critical domains such as Law (Judicial fairness), and Cultural Norms. For instance, testing how models from different linguistic backgrounds offer financial advice or judge legal scenarios could reveal deeper cultural biases embedded in their training data. Expanding the testbed to these practical fields would provide a more comprehensive understanding of how AI might influence real-world decision-making across various industries and cultures.
 
 ## __VI. Instruction to Rerun__ 
 
