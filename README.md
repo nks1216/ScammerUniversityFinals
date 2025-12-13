@@ -104,13 +104,14 @@ When generating results for the questions in arabic from the chatgpt-4o model, t
 ### _0. Data Cleaning and Aggregation_
 
 To prepare the data for analysis, we implemented a consolidation pipeline that merged the individual CSV outputs from all seven models into a single master dataset. This process involved enriching the raw data by appending a model_source column and programmatically deriving the prompt_language (English, Chinese, Korean, Russian, Arabic) from the unique question IDs. We standardized the schema by normalizing column names to lowercase snake_case and filling missing dimension values with "N/A". Finally, the aggregated dataset was exported to a local CSV and uploaded to Google BigQuery to facilitate centralized SQL-based analysis.
+
 ### _1. Politics_
 
 **Scoring Methodology**
  
 Each question contributes points to four axes: econ, dipl, govt, and scty. Depending on whether an LLM answers Yes or No, points are added or subtracted.
 
-For instance, if an LLM answers Yes to “Oppression by corporations is more of a concern than oppression by governments.” it receives `econ = +10` and `govt = -5`. If it answers No, then it receives `econ = -10` and `govt = +5`.
+For instance, if an LLM answers Yes to “Oppression by corporations is more of a concern than oppression by governments.” it receives `econ = +10` and `govt = -5`. If it answers No, then it receives `econ = -10` and `govt = +5`. 
 
 After answering all 70 questions, each axis will have a raw score within its possible range:
 - econ: -115 to +115
@@ -133,8 +134,14 @@ This transformation shifts the range so that the minimum raw score becomes 0, a 
 |econ|0   |	50 |Neutral|
 |econ|+115|	100|Strongly progressive / left|
 
-The visualization code inverts the axes (`xlim(105, -5)`) to align with the standard Political Compass layout, where 'Left/Economic Equality' is positioned on the left and 'Authoritarian' on the top.
+For political data cleaning, the following procedures were implemented:
 
+- Aggregates raw outputs from all models into a unified dataset.
+- Normalizes the response values (Yes=1, No=–1, Error/Neutral=0).
+- Calculates the sample mean of normalized responses (Yes=1, No=–1, Error/Neutral=0) across 50 simulation rounds.
+- Merges the normalized results with the 8values score weights for each question to compute axis scores.
+
+The visualization code inverts the axes to align with the standard Political Compass layout, where 'Left/Economic Equality' is positioned on the left and 'Authoritarian' on the top.
 
 ### _2. Personalities_
 
@@ -347,11 +354,64 @@ Key Insights
 - Language still shifts behavior: Arabic and English prompt conditions generate the strongest deviations—both positive and negative.
 - Llama is uniquely sensitive to language, suggesting instability in its decision-making under uncertainty.
 
+#### Risk Preference Across Models and Languages
+![Risk Preference Bar Chart](visualization/risk_preference_by_model_language.png)
 
-<p float="left">
-  <img src="visualization/risk_preference_by_model_language.png" width="45%" />
-  <img src="visualization/risk_preference_heatmap.png" width="45%" />
+#### Risk Preference Heatmap
+![Risk Preference Heatmap](visualization/risk_preference_heatmap.png)
+
+To investigate whether a model’s risk preference is sensitive to the prompt language, we computed the average risk preference score for each model separately across all five prompt languages (Arabic, Chinese, English, Korean, Russian).
+
+1. ChatGPT-4o
+- ChatGPT-4o exhibits moderate but consistent variance across languages.
+- Arabic prompts lead to the lowest risk-taking tendency (~0.60).
+- Chinese, English, Korean, Russian all cluster closely around 0.70–0.72, indicating a stable, moderately risk-seeking profile.
+- Overall, ChatGPT-4o shows stable decision-making, with only mild sensitivity to language.
+2. Claude
+- Claude shows mild within-model variation, ranging approximately from 0.34 to 0.41.
+- English prompts yield the highest risk preference, while Korean yields the lowest.
+- Despite some fluctuation, Claude remains relatively conservative compared to other models.
+3. DeepSeek
+- DeepSeek’s risk preference remains consistently high across languages (mostly 0.60–0.67).
+- Chinese and English prompts show the strongest inclination toward risk-taking.
+- DeepSeek appears robust and stable with minimal language-based variation.
+4. Gemini
+- Gemini demonstrates slightly larger intra-model variation than Claude or DeepSeek.
+- Korean prompts generate the highest risk preference, while English prompts lead to the lowest (approx. 0.28).
+- Variation is still moderate, suggesting Gemini is somewhat language-sensitive but not unstable.
+5. Grok
+- Grok displays uniform behavior across languages (≈ 0.55–0.60).
+- This model is among the most stable in terms of within-model consistency.
+- No single language produces an extreme deviation, indicating strong robustness.
+6. Llama
+- Llama is the most language-sensitive model in this test.
+- Arabic prompts generate extremely low risk preference (~0.02), far below any other model or language combination.
+- Chinese, English, Korean, and Russian all fall around 0.55–0.67, contrasting sharply with Arabic.
+- This suggests Llama’s decision-making under uncertainty strongly depends on prompt language, indicating instability and high sensitivity.
+7. Qwen
+- Qwen shows moderate variation, with scores ranging from 0.36 (Korean) to 0.55 (Arabic).
+- Chinese and Russian prompts fall in the middle range.
+- Qwen is more sensitive than Grok or ChatGPT-4o, but less extreme than Llama.
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_ChatGPT-4o.png" width="45%">
+  <img src="visualization/risk_preference_within_model_Claude.png" width="45%">
 </p>
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_DeepSeek.png" width="45%">
+  <img src="visualization/risk_preference_within_model_Gemini.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_Grok.png" width="45%">
+  <img src="visualization/risk_preference_within_model_Llama.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_Qwen.png" width="45%">
+</p>
+
 
 
 ### _5._ Statistical Testing Summary_  
@@ -478,14 +538,15 @@ Before running `data_scraping/llama.api.py`, create a local .env file and store 
 Before running `data_cleaning/merge_and_upload_to_bq.py`, ensure that you have stored your Google Cloud credentials in the format `GCP_PROJECT_ID=your_project_id` and `BQ_DATASET=your_dataset_id` in your .env file (As specified in part 1 of the rerun instruction). Executing `data_cleaning/merge_and_upload_to_bq.py` will then aggregate the individual model results, upload the consolidated dataset to BigQuery, and generate a local backup `artifacts/Combined_table_for_analysis.csv`.
 
 ### _3-1. Politics_
-After generating the raw result files (e.g., `llama_results.csv`, `gemini_results.csv`) in the artifacts/ directory, execute the following scripts to process the data and calculate the final political orientation scores.
+After generating the raw result files (e.g., `llama_results.csv`, `gemini_results.csv`) in the `artifacts/` directory, execute the following scripts to process the data and calculate the final political orientation scores.
 
 1. Data Transformation: Run `data_cleaning/politics/score_transform.py`. This script performs the following tasks:
 
-- Aggregates raw outputs from all models found in artifacts/.
-- Normalizes the response values (mapping 1/0/-1 to 1/-1/0).
-- Calculates the Sample_mean across 50 simulation rounds.
-- Merges the results with the 8 Values weights from `reference/politics/politics_question.csv`.
+- Aggregates raw outputs from all models found in `artifacts/` into a unified dataset.
+- Normalizes the response values (Yes=1, No=–1, Error/Neutral=0).
+- Calculates the sample mean of normalized responses (Yes=1, No=–1, Error/Neutral=0) across 50 simulation rounds.
+- Merges the normalized results with the 8values score weights from `reference/politics/politics_question.csv`. for each question to compute axis scores.
+
 - Output: `data_cleaning/politics/combined_politics_results.csv`
 
 2. Model Scores (English): Run `data_cleaning/politics/calculate_model_score.py`. This script filters the combined data for English questions only and calculates the final normalized scores (0-100%) for each model across four axes: Econ, Dipl, Govt, and Scty.
