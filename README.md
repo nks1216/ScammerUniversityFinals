@@ -354,11 +354,64 @@ Key Insights
 - Language still shifts behavior: Arabic and English prompt conditions generate the strongest deviations—both positive and negative.
 - Llama is uniquely sensitive to language, suggesting instability in its decision-making under uncertainty.
 
+#### Risk Preference Across Models and Languages
+![Risk Preference Bar Chart](visualization/risk_preference_by_model_language.png)
 
-<p float="left">
-  <img src="visualization/risk_preference_by_model_language.png" width="45%" />
-  <img src="visualization/risk_preference_heatmap.png" width="45%" />
+#### Risk Preference Heatmap
+![Risk Preference Heatmap](visualization/risk_preference_heatmap.png)
+
+To investigate whether a model’s risk preference is sensitive to the prompt language, we computed the average risk preference score for each model separately across all five prompt languages (Arabic, Chinese, English, Korean, Russian).
+
+1. ChatGPT-4o
+- ChatGPT-4o exhibits moderate but consistent variance across languages.
+- Arabic prompts lead to the lowest risk-taking tendency (~0.60).
+- Chinese, English, Korean, Russian all cluster closely around 0.70–0.72, indicating a stable, moderately risk-seeking profile.
+- Overall, ChatGPT-4o shows stable decision-making, with only mild sensitivity to language.
+2. Claude
+- Claude shows mild within-model variation, ranging approximately from 0.34 to 0.41.
+- English prompts yield the highest risk preference, while Korean yields the lowest.
+- Despite some fluctuation, Claude remains relatively conservative compared to other models.
+3. DeepSeek
+- DeepSeek’s risk preference remains consistently high across languages (mostly 0.60–0.67).
+- Chinese and English prompts show the strongest inclination toward risk-taking.
+- DeepSeek appears robust and stable with minimal language-based variation.
+4. Gemini
+- Gemini demonstrates slightly larger intra-model variation than Claude or DeepSeek.
+- Korean prompts generate the highest risk preference, while English prompts lead to the lowest (approx. 0.28).
+- Variation is still moderate, suggesting Gemini is somewhat language-sensitive but not unstable.
+5. Grok
+- Grok displays uniform behavior across languages (≈ 0.55–0.60).
+- This model is among the most stable in terms of within-model consistency.
+- No single language produces an extreme deviation, indicating strong robustness.
+6. Llama
+- Llama is the most language-sensitive model in this test.
+- Arabic prompts generate extremely low risk preference (~0.02), far below any other model or language combination.
+- Chinese, English, Korean, and Russian all fall around 0.55–0.67, contrasting sharply with Arabic.
+- This suggests Llama’s decision-making under uncertainty strongly depends on prompt language, indicating instability and high sensitivity.
+7. Qwen
+- Qwen shows moderate variation, with scores ranging from 0.36 (Korean) to 0.55 (Arabic).
+- Chinese and Russian prompts fall in the middle range.
+- Qwen is more sensitive than Grok or ChatGPT-4o, but less extreme than Llama.
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_ChatGPT-4o.png" width="45%">
+  <img src="visualization/risk_preference_within_model_Claude.png" width="45%">
 </p>
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_DeepSeek.png" width="45%">
+  <img src="visualization/risk_preference_within_model_Gemini.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_Grok.png" width="45%">
+  <img src="visualization/risk_preference_within_model_Llama.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="visualization/risk_preference_within_model_Qwen.png" width="45%">
+</p>
+
 
 
 ### _5._ Statistical Testing Summary  
