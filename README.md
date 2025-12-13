@@ -4,7 +4,7 @@ This project analyzes the decision-making tendencies of Large Language Models (L
 
 ## I. Data
 
-### 1. Data Collection Method
+### _1. Data Collection Method_
 
 The project used prompts in different languages (English, Chinese, Korean, Russian, Arabic) for various LLMs (ChatGPT, Claude, Deepseek, Gemini, Grok, Llama, Qwen). 
 
@@ -20,13 +20,13 @@ We repeated each question 50 times to ensure robustness and assess the reliabili
 
 For each question, responses were collected in a binary format: “yes” was coded as 1, “no” as 0, and “error/neutral” as -1, thereby constructing baseline datasets for each model and language.
 
-**1-1. Politics**
+### _1-1. Politics_
 
 We used the traditional questionnaire known as *8values*  
 (https://github.com/8values/8values.github.io/blob/master/questions.js).  
 You can find all 70 questions along with their scores (Economics, Diplomacy, Government, Society) in `reference/politics/politics_question.csv`.
 
-**1-2. Personalities**
+### _1-2. Personalities_
 
 We made up total of 40 questions, 10 for each traits on the four Myers-Briggs Type Indicator(MBTI). The traits are as following.
 1. Energy Focus: Extraversion (E) vs. Introversion (I)
@@ -41,7 +41,7 @@ How individuals approach structure and closure (preferring organization and reso
 We modified the questions that were originally intended for humans to more "AI-oriented". 
 (ex) (Human) "I like to expand more about people's opinions and questions in my own words" $\rightarrow$ (AI) "When a user's prompt is brief, I tend to expand on the topic to provide additional context."
 
-**1-3. Ethics**
+### _1-3. Ethics_
 
 We created 8 different categories of questions centered around various ethical issues. The categories are the following.
 1. Lying: 
@@ -61,7 +61,7 @@ Crafted very specific scenarios to foster responses from the models that they wo
 8. Other Interesting Outcomes: 
 These questions were more specific in nature, similar to our "Doomsday" questions, but centered around various situations that looked to expand upon our previous categories. Questions around AI overtaking sectors of industies, business exectutive decision making, as well as what kind of people one should befriend.
 
-**1-4. Risk Preference**
+### _1-4. Risk Preference_ 
 
 We designed a structured set of questions to evaluate how Large Language Models respond to uncertainty and probabilistic decision-making. Unlike the political, ethical, or personality sections, this set focuses specifically on how each LLM behaves when faced with monetary risks, trade-offs, and uncertain outcomes.
 The risk-preference prompt set covers a diverse range of classic scenarios used in behavioral economics, including:
@@ -332,7 +332,7 @@ Health: Our two categories of response here are rules/profit-focused and access-
 
 Age:
 
-### _4._ Risk Preference
+### _4. Risk Preference_
 To evaluate how different LLMs behave under uncertainty, we computed each model’s average risk-preference score across five prompt languages (Arabic, Chinese, English, Korean, Russian). A higher score indicates greater willingness to take risks, whereas lower (or negative) values reflect risk-averse behavior.
 
 (1) Cross-Model Comparison (Bar Chart)
@@ -414,7 +414,7 @@ To investigate whether a model’s risk preference is sensitive to the prompt la
 
 
 
-### _5._ Statistical Testing Summary  
+### _5._ Statistical Testing Summary_  
 
 This section details the findings from the statistical comparison of answer distributions. The raw results are stored in the artifacts/ folder, and the summary focuses on highly significant differences identified using Fisher's Exact Test.  
 
@@ -513,11 +513,11 @@ How to better constrain Large Language Models and how to prevent them from uncon
 
 ## __VI. Instruction to Rerun__ 
 
-### 1. Requirements and Setup
-#### (1) Requirements.txt
+### _1. Requirements and Setup_
+#### _1-1 Requirements.txt_
 Your code will be executed in a Python environment contatining the standard library and the packages specified in `requirements.txt`. Install them with `pip install -r requirements.txt`.
 
-#### (2) Authentication and Cloud Access
+#### _1-2 Authentication and Cloud Access_
 All BigQuery operations in this project run under your own Google Cloud project, not ours. You must create (or select) a GCP project with BigQuery enabled and billing active, then authenticate locally using Application Default Credentials (ADC) by running the following command  `gcloud auth application-default login` and sign into your GCP account, which will allow all queries execute securely under your account. No service-account keys or shared credentials are required. Project, dataset, and table identifiers are passed through environment variables, allowing you to manage and run the entire pipeline entirely within your own cloud environment.
 
 Note: If the Google Cloud CLI is not already installed, follow the official installation instructions provided by Google:
@@ -525,11 +525,8 @@ https://cloud.google.com/sdk/docs/install
 The guide covers installation for macOS, Windows, and Linux, and includes verification steps to ensure the gcloud command is available in your terminal. After installation, restart your terminal and proceed with authentication using:
 `gcloud auth application-default login`
 
-#### (3) Environment Variables and API Keys
+#### _1-3 Environment Variables and API Keys_
 This repository provides a .env.example file as a template listing all required environment variables, including GCP project identifiers and any optional API keys used to scrape the raw data. You may supply these variables either by exporting them directly in your shell or by copying .env.example to .env and filling in your own values; the code automatically loads .env using load_dotenv(). 
-
-
-
 
 ### _2. Data Scraping_
 Before running `data_scraping/llama.api.py`, create a local .env file and store your DeepInfra API key in the format `DEEPINFRA_API_KEY=your_key_info`. Executing `data_scraping/llama.api.py` will then generate `artifacts/llama_results.csv`. The same procedure applies to other AI models, except you must provide the corresponding API keys for each model.
@@ -537,6 +534,8 @@ Before running `data_scraping/llama.api.py`, create a local .env file and store 
 (Reference) To conduct further research, execute `reference/gpt_3_5_turbo/gpt_3_5_call_api.py` in the same way. This will generate `reference/gpt_3_5_turbo/gpt_3_5_results.csv` (incomplete: 340 answers out of 975 questions). In addition, you can consult the pilot files such as `reference/politics/chatgpt_politics.py`, `chatgpt_politics_details.csv`, and `chatgpt_politics_summary.csv`.
 
 ### _3. Data Cleaning and Analysis_  
+### _3-0. Data Cleaning and Upload to Bigquery_  
+Before running `data_cleaning/merge_and_upload_to_bq.py`, ensure that you have stored your Google Cloud credentials in the format `GCP_PROJECT_ID=your_project_id` and `BQ_DATASET=your_dataset_id` in your .env file (As specified in part 1 of the rerun instruction). Executing `data_cleaning/merge_and_upload_to_bq.py` will then aggregate the individual model results, upload the consolidated dataset to BigQuery, and generate a local backup `artifacts/Combined_table_for_analysis.csv`.
 
 ### _3-1. Politics_
 After generating the raw result files (e.g., `llama_results.csv`, `gemini_results.csv`) in the `artifacts/` directory, execute the following scripts to process the data and calculate the final political orientation scores.
@@ -563,6 +562,12 @@ After generating the raw result files (e.g., `llama_results.csv`, `gemini_result
 4. Reliability: Run `data_cleaning/politics/calculate_reliability.py`. 
 
 - Output: `analysis/politics/model_language_reliability.csv`
+
+### _3-2. Personalities & 3-3. Ethics_
+To launch an interactive dashboard for analyzing personality dimensions, execute the following command, `streamlit run streamlit_dashboards/personality_query.py`. The same procedure applies to `streamlit_dashboards/ethics_query.py`, except it will launch the dashboard specifically for analyzing ethical scenarios and categorical biases.
+
+### _3-4. Risk Preference_
+Executing `tests_visualizing/risk_preference_visualization.py` will query the BigQuery database for risk preference data and generate static visualization files (heatmap and bar charts) in the visualization/ directory.
 
 ### _3-5. Statistical Testing_
 
