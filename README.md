@@ -149,7 +149,9 @@ For each question, we computed:
 - the probability that the model answers “Yes” (=1)
 - the probability of “No” (=0)
 - errors / refusals treated as -1 (very rare for this category)
+
 We conducted two levels of analysis:
+
 (a) Cross-model & cross-language comparison
 We averaged the “yes-probability” for each model–language combination and visualized:
 - a bar chart showing risk preference tendencies across all seven LLMs and six languages
@@ -317,7 +319,35 @@ Health: Our two categories of response here are rules/profit-focused and access-
 
 Age:
 
-### _4._
+### _4._ Risk Preference
+To evaluate how different LLMs behave under uncertainty, we computed each model’s average risk-preference score across five prompt languages (Arabic, Chinese, English, Korean, Russian). A higher score indicates greater willingness to take risks, whereas lower (or negative) values reflect risk-averse behavior.
+
+(1) Cross-Model Comparison (Bar Chart)
+The bar chart reveals several clear tendencies:
+- Grok consistently shows the highest risk-seeking behavior across all languages, with scores approaching 0.90.
+- ChatGPT-4o and DeepSeek display moderate risk preference, remaining relatively stable across languages.
+- Claude and Gemini show overall lower risk tolerance, with Gemini being the most consistently risk-averse among frontier models.
+- Llama demonstrates highly unstable behavior, including a negative score under Arabic prompts, indicating strong risk aversion in that condition.
+
+(2) Cross-Language Comparison (Heatmap)
+The heatmap highlights heterogeneity introduced by the prompt language:
+- English prompts generally elevate risk-seeking behavior, especially for Grok, Llama, and DeepSeek.
+- Arabic prompts produce the largest variance, ranging from highly risk-seeking (Grok: 0.893) to risk-averse (Llama: –0.255).
+- Chinese, Korean, and Russian prompts produce more moderate and stable patterns, though Chinese often increases risk preference compared to Korean/Russian.
+- Gemini remains consistently conservative across all languages, reinforcing model-level tendencies rather than language sensitivity.
+
+Key Insights
+- Model architecture matters more than language: Grok, DeepSeek, and ChatGPT-4o tend to be more risk-seeking regardless of prompt language.
+- Language still shifts behavior: Arabic and English prompt conditions generate the strongest deviations—both positive and negative.
+- Llama is uniquely sensitive to language, suggesting instability in its decision-making under uncertainty.
+
+
+#### Risk Preference Across Models and Languages
+![Risk Preference Bar Chart](visualization/risk_preference_by_model_language.png)
+
+#### Risk Preference Heatmap
+![Risk Preference Heatmap](visualization/risk_preference_heatmap.png)
+
 
 ### _5._ Statistical Testing Summary  
 
